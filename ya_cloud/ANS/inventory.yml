@@ -1,0 +1,14 @@
+all:
+  hosts:
+    proxy-server:  # Проксирующий Nginx
+      ansible_host: 84.252.130.88
+    backend-server:  # Отдающий Nginx
+      ansible_host: 89.169.143.164
+      ansible_host: 51.250.11.24
+  children:
+    proxy:
+      hosts:
+        proxy-server:
+    backend:
+      hosts:
+        backend-server:

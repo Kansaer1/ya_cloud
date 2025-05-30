@@ -1,0 +1,17 @@
+- name: Configure all servers
+  hosts: all
+  become: true
+  roles:
+    - common
+
+- name: Configure Proxy Nginx
+  hosts: proxy
+  become: true
+  roles:
+    - proxy_nginx
+
+- name: Configure Backend Nginx
+  hosts: backend
+  become: true
+  roles:
+    - backend_nginx

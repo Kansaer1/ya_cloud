@@ -1,0 +1,29 @@
+- name: Install Nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Configure Nginx proxy
+  template:
+    src: nginx-proxy.conf.j2
+    dest: /etc/nginx/sites-available/proxy
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Enable proxy config
+  file:
+    src: /etc/nginx/sites-available/proxy
+    dest: /etc/nginx/sites-enabled/proxy
+    state: link
+
+- name: Restart Nginx
+  service:
+    name: nginx
+    state: restarted 
+
+- name: Add backend host to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ hostvars[groups['backend'][0]]['ansible_host'] }} backend-server"
+    state: present
